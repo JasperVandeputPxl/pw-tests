@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "f474b598-32fe-4a28-b7ef-4ff33cb46fe5",
+		"name": "DevOps Student API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17734077"
+	},
+	"item": [
+		{
+			"name": "/students",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    responseData.forEach(function(student) {",
+							"        pm.expect(student._id).to.exist;",
+							"        pm.expect(student.name).to.exist;",
+							"        pm.expect(student.age).to.exist;",
+							"        pm.expect(student.group).to.exist;",
+							"        pm.expect(student.__v).to.exist;",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Age is a non-negative integer\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('array');",
+							"  responseData.forEach(function(student) {",
+							"    pm.expect(student.age).to.be.a('number').and.to.be.at.least(0);",
+							"  });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Content type is application/json\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Validate that _id is a non-empty string\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('array');",
+							"  responseData.forEach(function(student) {",
+							"    pm.expect(student._id).to.be.a('string').and.to.have.lengthOf.at.least(1, \"_id should be a non-empty string\");",
+							"  });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "key",
+						"value": "2TINDEVOPS"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \"name\": \"Jasper Vandeput\",  \"age\": 18,  \"group\": \"waffles\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{default_path}}/students",
+					"host": [
+						"{{default_path}}"
+					],
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/students",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.expect(pm.response.code).to.equal(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array').that.is.not.empty;",
+							"    ",
+							"    responseData.forEach(function(student) {",
+							"        pm.expect(student).to.have.property('_id');",
+							"        pm.expect(student).to.have.property('name');",
+							"        pm.expect(student).to.have.property('age');",
+							"        pm.expect(student).to.have.property('group');",
+							"        pm.expect(student).to.have.property('__v');",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Age is a non-negative integer\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('array');",
+							"  responseData.forEach(function(student) {",
+							"    pm.expect(student.age).to.be.a('number').and.to.satisfy((age) => age >= 0, \"Age should be a non-negative integer\");",
+							"  });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Verify that the response content type is 'application/json'\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Id is a non-empty string\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('array');",
+							"    responseData.forEach(function(student) {",
+							"        pm.expect(student._id).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Id should not be empty\");",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "key",
+						"value": "2TINDEVOPS",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{default_path}}/students",
+					"host": [
+						"{{default_path}}"
+					],
+					"path": [
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/students/{id}",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Content-Type is application/json\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Response has the required fields\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData).to.have.property('_id');",
+							"    pm.expect(responseData).to.have.property('name');",
+							"    pm.expect(responseData).to.have.property('age');",
+							"    pm.expect(responseData).to.have.property('group');",
+							"    pm.expect(responseData).to.have.property('__v');",
+							"});",
+							"",
+							"",
+							"pm.test(\"Age is a non-negative integer\", function () {",
+							"    const responseData = pm.response.json();",
+							"    ",
+							"    pm.expect(responseData).to.be.an('object');",
+							"    pm.expect(responseData.age).to.be.a('number').and.to.satisfy((age) => age >= 0, \"Age must be a non-negative integer\");",
+							"});",
+							"",
+							"",
+							"pm.test(\"Id and group should be non-empty strings\", function () {",
+							"  const responseData = pm.response.json();",
+							"  ",
+							"  pm.expect(responseData).to.be.an('object');",
+							"  pm.expect(responseData._id).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Id should not be empty\");",
+							"  pm.expect(responseData.group).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Group should not be empty\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "key",
+						"value": "2TINDEVOPS",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{default_path}}/students/6762c970edd216ed5041074d",
+					"host": [
+						"{{default_path}}"
+					],
+					"path": [
+						"students",
+						"6762c970edd216ed5041074d"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "default_path",
+			"value": "devops.d-ries.be/api",
+			"type": "string"
+		}
+	]
+}
