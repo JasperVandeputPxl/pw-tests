@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-const CALCULATOR_APP_IP = "3.92.191.2";
+const CALCULATOR_APP_IP = "44.201.84.212";
 
 test("Check if the Add button is present", async ({ page }) => {
   // Go to target page
